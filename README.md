@@ -5,7 +5,7 @@ This is a reworking of one of my senior projects at EOU while acquiring my BS in
 This projects stack includes:  
 >>Front end using React with vite. 
 >>REST API using Pythons Flask library.
->>And MySQL for the database containing 80k words provided by the professor via a word.txt file.
+>>And MySQL for the database containing 80k words provided by my professor via a word.txt file.
     
 Bellow is a tutorial for running the app on a Windows PC.  
   
