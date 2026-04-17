@@ -23,6 +23,7 @@ try:
     print("Connected to database!")
     cursor = conn.cursor()
 
+    # print number of words added to DB
     inserted = 0
 
     with open('words.txt', 'r') as file:
@@ -32,7 +33,7 @@ try:
             if word:
                 try:
                     cursor.execute("INSERT IGNORE INTO valid_words (word) VALUES (%s)", (word,))
-                    if cursor.rowcount == 1:
+                    if cursor.rowcount == 1: # 1 == inserted, and 0 == already existed aka 0 rows changed
                         inserted += 1
                         print(f"Inserted: '{word}'")
                     else:
