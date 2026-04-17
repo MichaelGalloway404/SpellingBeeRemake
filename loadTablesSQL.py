@@ -1,6 +1,8 @@
 import pymysql
-import os
-import sys
+from dotenv import load_dotenv
+import os, sys
+
+load_dotenv()
 
 print("Starting script...")
 
@@ -12,10 +14,11 @@ conn = None
 
 try:
     conn = pymysql.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="spellingbee"
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
+        cursorclass=pymysql.cursors.DictCursor
     )
     print("Connected to database!")
     cursor = conn.cursor()
