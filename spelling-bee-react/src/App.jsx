@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+// For easy access and a one stop place to change port number
 const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
@@ -43,14 +44,10 @@ function App() {
       });
   }, []);
 
-
+  // clean functional update, garanties most uptodate state info
   const handleLetterClick = (letter) => {
-    const prevInput = wordInput;
-    setWordInput(wordInput + letter);
+    setWordInput(prev => prev + letter);
   };
-  // const handleLetterClick = (letter) => {
-  //   setWordInput(prev => prev + letter);
-  // };
 
   const submitWord = () => {
     const word = wordInput.trim();
