@@ -13,7 +13,9 @@ To run locally on WINDOWS:
 ## Step 1:  
 >>Download MySQL installer from https://dev.mysql.com/downloads/installer/  
 >>Go through installation steps and write down your user name and password  
-      For this project I just used username = root and password = root  
+>>For this project and for the sake of learning I used username = root and password = root but
+>>all credentails should be stored in your .env file and imported using dotenv and os.getenv() or another framework is you so choose
+>>don't for get to always add your .env to .gitignore file, as to not upload your credentails to your repo -_-
 
 ## Step 2:  
 >>If added to your environment variables  
