@@ -13,13 +13,12 @@ function App() {
   const [rank, setRank] = useState("Beginner");
   const [message, setMessage] = useState("");
 
-  // 1. Attempt to get 'session_id' from the browser's temporary storage.
-  // 2. The '||' (OR operator) acts as a fallback: 
-  //    if the ID doesn't exist (null), it generates a new unique string using crypto.randomUUID().
+  // Attempt to get 'session_id' from the browser's temporary storage.
+  // if the ID doesn't exist, generate a new unique string
   const sessionId = sessionStorage.getItem("session_id") || crypto.randomUUID();
 
-  // 3. Save the ID (either the retrieved one or the new one) back into storage.
-  //    This ensures the same ID is found the next time the page is refreshed.
+  // Save the ID back into storage.
+  // This ensures the same ID is found the next time the page is refreshed.
   sessionStorage.setItem("session_id", sessionId);
 
   // Fetch letters
@@ -51,6 +50,7 @@ function App() {
 
   const submitWord = () => {
     const word = wordInput.trim();
+    // dont submit an empty string
     if (!word) return;
 
     fetch(`${API_URL}/api/check_word`, {

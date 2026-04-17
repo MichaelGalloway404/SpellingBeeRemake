@@ -12,7 +12,6 @@ api = Api(app)
 CORS(app)
 
 # -------------------- DATABASE --------------------
-
 def get_db_connection():
     return pymysql.connect(
         host=os.getenv("DB_HOST"),
@@ -46,7 +45,6 @@ def is_valid_word(word):
     return word in VALID_WORDS
 
 # -------------------- GAME LOGIC --------------------
-
 def is_pangram(word, letters):
     # Determines if a word uses every letter in the provided puzzle set.
     # Returns True if all 'letters' are present at least once in 'word'.
@@ -58,16 +56,16 @@ def is_word_possible(word, letters):
     return set(word).issubset(set(letters))
 
 def get_valid_combinations(letters):
-    # Finds all legal words for a specific puzzle.
-    # Constraint 1: Must contain the 'center' letter (assumed to be letters[0]).
-    # Constraint 2: Must only use letters from the provided list.
-    center = letters[0] # The 'mandatory' letter for the puzzle
+    # Finds all legal words for a specific puzzle as follows:
+    #   Must contain the 'center' letter (assumed to be letters[0]).
+    #   Must only use letters from the provided list.
+    center = letters[0] 
     valid_words = []
     letters_set = set(letters)
 
     for word in VALID_WORDS:
         # Check if the word contains the required center letter
-        # AND if all letters in the word are part of the allowed letter set
+        # and if all letters in the word are part of the allowed letter set
         if center in word and set(word).issubset(letters_set):
             valid_words.append(word)
 
@@ -75,12 +73,11 @@ def get_valid_combinations(letters):
 
 
 # -------------------- DAILY LETTERS --------------------
-
 today_letters_cache = {}
 
 def get_today_letters():
-    # Get today's date (used as a unique key per day)
-    today = datetime.date.today()
+    
+    today = datetime.date.today()# used as a unique key per day
 
     # If we've already generated today's puzzle, return it from cache
     if today in today_letters_cache:
@@ -156,7 +153,6 @@ def get_today_letters():
     raise Exception("Failed to generate puzzle")
 
 # -------------------- SCORING --------------------
-
 def calculate_score(words, letters):
     # Calculates the total score for a list of found words.
     
@@ -186,7 +182,6 @@ def get_rank(score):
     return "Beginner"
 
 # -------------------- SESSION HANDLING --------------------
-
 def get_session(session_id):
     today = datetime.date.today()
     conn = get_db_connection()
@@ -229,7 +224,7 @@ def update_found_words(session_id, new_words):
         conn.close()
 
 # -------------------- API RESOURCES --------------------
-
+# ------------------- /api/game/today
 class Game(Resource):
     def get(self):
         letters = get_today_letters()
@@ -242,9 +237,8 @@ class Game(Resource):
         }
 
 api.add_resource(Game, '/api/game/today')
-
 # --------------------
-
+# -------------------- /api/check_word
 class CheckWord(Resource):
     def post(self):
         data = request.get_json()
@@ -296,9 +290,8 @@ class CheckWord(Resource):
         return response
 
 api.add_resource(CheckWord, '/api/check_word')
-
 # --------------------
-
+# -------------------- /api/found_words
 class GetFoundWords(Resource):
     def get(self):
         session_id = request.args.get("session_id")
@@ -330,9 +323,8 @@ class GetFoundWords(Resource):
         }
 
 api.add_resource(GetFoundWords, '/api/found_words')
-
 # --------------------
-
+# -------------------- /api/restart
 class RestartGame(Resource):
     def post(self):
         data = request.get_json()
