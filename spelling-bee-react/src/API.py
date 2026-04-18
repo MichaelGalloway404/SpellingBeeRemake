@@ -238,6 +238,7 @@ class Game(Resource):
 
 api.add_resource(Game, '/api/game/today')
 # --------------------
+
 # -------------------- /api/check_word
 class CheckWord(Resource):
     def post(self):
@@ -247,7 +248,7 @@ class CheckWord(Resource):
         session_id = data.get("session_id")
 
         if not session_id:
-            return {"status": "error", "message": "missing session_id"}, 400
+            return {"status": "fail", "reason": "sesson error please reload and restart"}, 400
 
         if len(word) < 4:
             return {"status": "fail", "reason": "too short"}
@@ -255,21 +256,27 @@ class CheckWord(Resource):
         letters = get_today_letters()
         center = letters[0]
 
+        # missing center
         if center not in word:
             return {"status": "fail", "reason": "missing center"}
 
+        # invalid letters
         if not is_word_possible(word, letters):
             return {"status": "fail", "reason": "invalid letters"}
 
+        # not in dictionary
         if not is_valid_word(word):
             return {"status": "fail", "reason": "not in dictionary"}
 
+        # word is correct
         session = get_session(session_id)
         found_words = json.loads(session["found_words"])
 
+        # already found
         if word in found_words:
             return {"status": "fail", "reason": "already found"}
 
+        # update session's info
         found_words.append(word)
         update_found_words(session_id, found_words)
 
@@ -284,18 +291,33 @@ class CheckWord(Resource):
             }
         }
 
+        # pangram
         if is_pangram(word, letters):
             response["data"]["pangram"] = True
 
+        '''
+        example successfull responce
+        {
+          "status": "ok",
+          "data": {
+              "total_points": 14,
+              "rank": "Good Start",
+              "pangram": true
+          }
+        }
+
+        '''
         return response
 
 api.add_resource(CheckWord, '/api/check_word')
 # --------------------
+
 # -------------------- /api/found_words
 class GetFoundWords(Resource):
     def get(self):
         session_id = request.args.get("session_id")
 
+        # clean page for new user
         if not session_id:
             return {
                 "status": "ok",
@@ -307,6 +329,7 @@ class GetFoundWords(Resource):
             }
 
         session = get_session(session_id)
+        # words session has found so far
         found_words = json.loads(session["found_words"])
         letters = get_today_letters()
 
@@ -321,9 +344,10 @@ class GetFoundWords(Resource):
                 "rank": rank
             }
         }
-
+    
 api.add_resource(GetFoundWords, '/api/found_words')
 # --------------------
+
 # -------------------- /api/restart
 class RestartGame(Resource):
     def post(self):
@@ -338,7 +362,6 @@ class RestartGame(Resource):
         return {"status": "ok", "message": "restarted"}
 
 api.add_resource(RestartGame, '/api/restart')
-
 # --------------------
 
 if __name__ == '__main__':

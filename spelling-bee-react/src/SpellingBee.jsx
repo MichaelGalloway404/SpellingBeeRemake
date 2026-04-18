@@ -43,11 +43,12 @@ function SpellingBee() {
       });
   }, []);
 
-  // clean functional update, garanties most uptodate state info
+  // Clean functional update, garanties most uptodate state info for rappid clicking
   const handleLetterClick = (letter) => {
     setWordInput(prev => prev + letter);
   };
 
+  // Submit a word based on current session
   const submitWord = () => {
     const word = wordInput.trim();
     // dont submit an empty string
@@ -64,8 +65,6 @@ function SpellingBee() {
       .then(data => {
         if (data.status === "fail") {
           setMessage(data.reason);
-        } else if (data.status === "error") {
-          setMessage(data.message);
         } else if (data.status === "ok") {
           const d = data.data;
 
@@ -84,6 +83,7 @@ function SpellingBee() {
       });
   };
 
+  // restart the game for current session ID so as to not effect other tab or browser
   const restartGame = () => {
     fetch(`${API_URL}/api/restart`, {
       method: "POST",
@@ -104,17 +104,21 @@ function SpellingBee() {
       });
   };
 
-  const safeLetters = letters || [];
-
+  // Make a new array with all letters except the center one
   const orderedLetters = [
-    ...safeLetters.filter(l => l !== centerLetter)
-  ]; const midIndex = Math.floor(orderedLetters.length / 2);
+    ...letters.filter(l => l !== centerLetter)
+  ];
+  // Get middle position of the new letters list
+  const midIndex = Math.floor(orderedLetters.length / 2);
+  // Insert the center letter in the middle
   orderedLetters.splice(midIndex, 0, centerLetter);
 
   // back space button
   const handleBackspace = () => {
+    // shave off last index of currently typed word
     setWordInput(prev => prev.slice(0, -1));
   };
+
   return (
     <div className="containerOuter">
       <div className="containerInner">
@@ -127,6 +131,7 @@ function SpellingBee() {
             orderedLetters.map((l, i) => (
               <span
                 key={i}
+                // add special center letter class for css to colot red
                 className={`letter ${l === centerLetter ? "center" : ""}`}
                 onClick={() => handleLetterClick(l)}
               >
@@ -135,7 +140,7 @@ function SpellingBee() {
             ))
           )}
         </div>
-        <div id="inputArea">
+        <div>
           <input
             className="textInput"
             type="text"
@@ -149,7 +154,7 @@ function SpellingBee() {
             autoFocus
           />
         </div>
-        <div id="inputArea">
+        <div>
           <button onClick={handleBackspace}>Back-Space</button>
           <button onClick={submitWord}>Submit</button>
           <button onClick={restartGame}>Restart</button>
