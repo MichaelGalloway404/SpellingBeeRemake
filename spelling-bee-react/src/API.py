@@ -56,9 +56,6 @@ def is_word_possible(word, letters):
     return set(word).issubset(set(letters))
 
 def get_valid_combinations(letters):
-    # Finds all legal words for a specific puzzle as follows:
-    #   Must contain the 'center' letter (assumed to be letters[0]).
-    #   Must only use letters from the provided list.
     center = letters[0] 
     valid_words = []
     letters_set = set(letters)
@@ -77,7 +74,7 @@ today_letters_cache = {}
 
 def get_today_letters():
     
-    today = datetime.date.today()# used as a unique key per day
+    today = datetime.date.today() # used as a unique key per day
 
     # If we've already generated today's puzzle, return it from cache
     if today in today_letters_cache:
@@ -86,46 +83,37 @@ def get_today_letters():
     # Seed the random generator with today's date
     random.seed(today.isoformat())
 
-    # Minimum requirements for a "good" puzzle
+    # Minimum requirements for puzzle
     MIN_WORDS = 25       # Require at least this many valid words
-    MIN_SCORE = 80       # Require a minimum total achievable score
+    MIN_SCORE = 40       # Require a minimum total achievable score 
 
     # Step 1: Find all pangrams in the dictionary
-    # A pangram = word that uses exactly 7 unique letters
-    # These are used as the "source" for building puzzles
-    pangrams = [w for w in VALID_WORDS if len(set(w)) == 7]
+    # A pangram is a word that uses exactly 7 unique letters
+    pangrams = [w for w in VALID_WORDS if len(set(w)) == 7] # VALID_WORDS was populated when API.py was first ran
 
     # Track the best fallback puzzle in case none meet strict requirements
     best_letters = None
     best_score = 0
 
     # Step 2: Try multiple random pangrams to find a good puzzle
-    # We don't just pick one, we sample many and evaluate them
     for _ in range(200):
-
         # Pick a random pangram
         pangram = random.choice(pangrams)
 
-        # Extract its unique letters (these define the puzzle)
-        # Example: "triangle" -> ['t','r','i','a','n','g','l','e'] → actually 7 unique
-        letters = list(set(pangram))
+        # Get random pangram's unique letters
+        letters = list(set(pangram)) # ex:['t','r','i','a','n','g','l','e'] -> actually 7 unique
 
-        # Find all valid words that can be made from these letters
-        # (must include center letter + only use these letters)
+        # Returns a list of all valid words that can be made from these letters
         valid_words = get_valid_combinations(letters)
 
-        # If no words can be formed, skip this candidate entirely
+        # If no words can be formed, skip
         if not valid_words:
             continue
 
         # Calculate the total possible score for this puzzle
-        # (based on your scoring rules)
         score = calculate_score(valid_words, letters)
 
-        # ✅ HARD REQUIREMENTS:
-        # Only accept puzzles that meet BOTH:
-        # - enough words
-        # - enough scoring potential
+        # Only accept puzzles that have enough words and have can produce a good score
         if len(valid_words) >= MIN_WORDS and score >= MIN_SCORE:
             # Shuffle letters so they appear random to the user
             random.shuffle(letters)
@@ -133,7 +121,7 @@ def get_today_letters():
             # Cache today's puzzle so future calls are instant
             today_letters_cache[today] = letters
 
-            # Return immediately (we found a good puzzle)
+            # Return (we have a good puzzle)
             return letters
 
         # If this puzzle isn't good enough, track it as a fallback
@@ -149,7 +137,7 @@ def get_today_letters():
         today_letters_cache[today] = best_letters
         return best_letters
 
-    # If absolutely nothing worked, something is seriously wrong
+    # If absolutely nothing worked
     raise Exception("Failed to generate puzzle")
 
 # -------------------- SCORING --------------------
@@ -157,7 +145,7 @@ def calculate_score(words, letters):
     # Calculates the total score for a list of found words.
     
     # Scoring Rules:
-    # - 4-letter words = 1 point.
+    # - 4 letter words = 1 point.
     # - Words longer than 4 letters = points equal to their length.
     # - Pangram bonus = +7 points if the word uses every letter in the puzzle.
     
@@ -165,7 +153,6 @@ def calculate_score(words, letters):
     score = sum(1 if len(w) == 4 else len(w) for w in words)
     
     # 2. Bonus Points: Adds 7 points for every word that qualifies as a pangram
-    # Uses the previously defined 'is_pangram' logic
     score += sum(7 for w in words if is_pangram(w, letters))
     
     return score
