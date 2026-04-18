@@ -282,7 +282,7 @@ class CheckWord(Resource):
             }
         }
 
-        # pangram
+        # If pangram add pangram bool to responce
         if is_pangram(word, letters):
             response["data"]["pangram"] = True
 
