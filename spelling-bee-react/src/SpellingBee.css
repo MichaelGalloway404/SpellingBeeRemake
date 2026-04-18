@@ -6,25 +6,6 @@ body {
   justify-content: center;
 }
 
-.spinner {
-  border: 4px solid #ddd;
-  border-top: 4px solid #555;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
-  margin: auto;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .containerOuter {
   display: flex;
   justify-content: center;
@@ -122,4 +103,24 @@ li {
   padding: 5px;
   font-weight: 500;
   color: #333;
+}
+
+/* Spinner for letter loading */
+.spinner {
+  border: 4px solid #ddd;
+  border-top: 4px solid #555;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
