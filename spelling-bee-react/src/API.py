@@ -175,12 +175,14 @@ def get_session(session_id):
 
     try:
         with conn.cursor() as cursor:
+            # Get session info for user playing  
             cursor.execute(
                 "SELECT * FROM user_stats WHERE session_id = %s AND date_played = %s",
                 (session_id, today)
             )
             user = cursor.fetchone()
 
+            # If new user update data base with session_id, found_words, date_played
             if not user:
                 cursor.execute(
                     "INSERT INTO user_stats (session_id, found_words, date_played) VALUES (%s, %s, %s)",
@@ -188,6 +190,7 @@ def get_session(session_id):
                 )
                 conn.commit()
 
+                # Return new user info
                 cursor.execute(
                     "SELECT * FROM user_stats WHERE session_id = %s AND date_played = %s",
                     (session_id, today)
@@ -203,6 +206,7 @@ def update_found_words(session_id, new_words):
     try:
         with conn.cursor() as cursor:
             cursor.execute(
+                # Add users new found words to the DB
                 "UPDATE user_stats SET found_words = %s WHERE session_id = %s AND date_played = %s",
                 (json.dumps(new_words), session_id, datetime.date.today())
             )
