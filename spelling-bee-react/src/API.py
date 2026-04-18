@@ -287,7 +287,7 @@ class CheckWord(Resource):
             response["data"]["pangram"] = True
 
         '''
-        example successfull responce
+        example successfull responce with added pangram
         {
           "status": "ok",
           "data": {
