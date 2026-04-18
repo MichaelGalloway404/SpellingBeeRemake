@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import "./SpellingBee.css";
 
 // For easy access and a one stop place to change port number
 const API_URL = import.meta.env.VITE_API_URL;
 
-function App() {
+function SpellingBee() {
   const [letters, setLetters] = useState([]);
   const [centerLetter, setCenterLetter] = useState("");
   const [wordInput, setWordInput] = useState("");
@@ -175,4 +175,4 @@ function App() {
   );
 }
 
-export default App;
+export default SpellingBee;

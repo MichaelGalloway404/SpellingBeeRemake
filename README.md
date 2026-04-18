@@ -54,7 +54,7 @@ To run locally on WINDOWS:
 >>This will fill you DataBase with the 80K+ words from words.txt  
   
 ## Step 4:  
->>Make sure app.py also has the correct username and password to what you set it in your MySQL install  
+>>Make sure API.py also has the correct username and password(or uses .env) to what you set it in your MySQL install  
   
 ## Step 5:  
 >>cd to spelling-bee-react and run the following command:
@@ -65,6 +65,6 @@ To run locally on WINDOWS:
 ## Final step:
 >>In the spelling-bee-react folder cd to src
 >>Run the following command:
->>>>python app.py
+>>>>python API.py
 >>Now open a browder and visit the URL http://localhost:5173/  
 >>Enjoy the Game!  
