@@ -11,7 +11,7 @@ function SpellingBee() {
   const [foundWords, setFoundWords] = useState([]);
   const [score, setScore] = useState(0);
   const [rank, setRank] = useState("Beginner");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(""); // For general user feed back
 
   // Attempt to get 'session_id' from the browser's temporary storage. Else generate a new unique string
   const sessionId = sessionStorage.getItem("session_id") || crypto.randomUUID();
@@ -22,19 +22,18 @@ function SpellingBee() {
 
 
   // -------- API Interactions --------
-
-  // /api/game/today
-  // Fetch letters
+  // api/game/today -- Fetch letters
   useEffect(() => {
     fetch(`${API_URL}/api/game/today`)
       .then(res => res.json())
       .then(data => {
-        setCenterLetter(data.data.center);
-        setLetters(data.data.letters);
+        const d = data.data;
+        setCenterLetter(d.center);
+        setLetters(d.letters);
       });
   }, []);
 
-  // /api/found_words -- Fetch found words
+  // api/found_words -- Fetch found words
   useEffect(() => {
     fetch(`${API_URL}/api/found_words?session_id=${sessionId}`)
       .then(res => res.json())
@@ -46,10 +45,10 @@ function SpellingBee() {
       });
   }, []);
 
-  // /api/check_word -- Submit a word based on current session
+  // api/check_word -- Submit a word based on current session
   const submitWord = () => {
     const word = wordInput.trim();
-    // dont submit an empty string
+    // Dont submit an empty string
     if (!word) return;
 
     fetch(`${API_URL}/api/check_word`, {
@@ -76,12 +75,12 @@ function SpellingBee() {
             setMessage("");
           }
         }
-
+        // Reset word input for user
         setWordInput("");
       });
   };
 
-  // /api/restart -- restart the game for current session ID so as to not effect other tab or browser
+  // api/restart -- restart the game for current session ID so as to not effect other tab or browser
   const restartGame = () => {
     fetch(`${API_URL}/api/restart`, {
       method: "POST",
@@ -109,9 +108,9 @@ function SpellingBee() {
     setWordInput(prev => prev + letter);
   };
 
-  // back space button
+  // Back space button
   const handleBackspace = () => {
-    // shave off last index of currently typed word
+    // Shave off last index of currently typed word
     setWordInput(prev => prev.slice(0, -1));
   };
 
@@ -131,15 +130,16 @@ function SpellingBee() {
         <h1>Spelling Bee</h1>
 
         <div className="letters">
+          {/* Only letters would take time to render, so lets show a spinner if we have to wait */}
           {!letters.length || !centerLetter ? (
             <div className="spinner"></div>
           ) : (
             orderedLetters.map((l, i) => (
               <span
                 key={i}
-                // add special center letter class for css to colot red
+                // Add special center letter class for css to color red
                 className={`letter ${l === centerLetter ? "center" : ""}`}
-                onClick={() => handleLetterClick(l)}
+                onClick={() => handleLetterClick(l)} // Visualy add clicked letter
               >
                 {l.toUpperCase()}
               </span>
@@ -150,14 +150,15 @@ function SpellingBee() {
           <input
             className="textInput"
             type="text"
-            value={wordInput}
-            placeholder="Type your word here..."
+            value={wordInput} // Effected by clicking or typing
+            placeholder="Start typing here..."
             onChange={(e) => setWordInput(e.target.value)}
             onKeyDown={(e) => {
+              // For key board interactions
               if (e.key === "Enter") submitWord();
               if (e.key === "Backspace") handleBackspace();
             }}
-            autoFocus
+            autoFocus // Allows user to just start typing rather than first clicking text box
           />
         </div>
         <div>
@@ -166,6 +167,7 @@ function SpellingBee() {
           <button onClick={restartGame}>Restart</button>
         </div>
 
+        {/* Show user feed back on wrong words or highscores */}
         <div className="message">{message}</div>
 
         <div className="scoreboard">
