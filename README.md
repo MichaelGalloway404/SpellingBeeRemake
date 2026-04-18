@@ -1,6 +1,8 @@
 # Spelling Bee Clone updated with a React front end
 
-This is a reworking of one of my senior projects at EOU while acquiring my BS in Computer Science 
+This is a reworking of one of my senior projects at EOU while acquiring my BS in Computer Science  
+The Spelling Bee project serves a intermediate tutorial for any one looking to use React with Flask and SQL  
+There is excessive comments to help facilitate the learning experience and feal free to use the code in your own projects  
   
 This projects stack includes:  
 >>Front end using React with vite. 
@@ -68,3 +70,6 @@ To run locally on WINDOWS:
 >>>>python API.py
 >>Now open a browder and visit the URL http://localhost:5173/  
 >>Enjoy the Game!  
+
+# Author  
+### Michael Galloway  
