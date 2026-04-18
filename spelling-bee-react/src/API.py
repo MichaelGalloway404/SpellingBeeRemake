@@ -7,9 +7,9 @@ import os
 
 load_dotenv()
 
-app = Flask(__name__)
-api = Api(app)
-CORS(app)
+app = Flask(__name__)     # Create a Flask app instance
+api = Api(app)            # Wrap it with Flask-RESTful to define API resources
+CORS(app)                 # Enable CORS (Cross-Origin Resource Sharing)
 
 # -------------------- DATABASE --------------------
 def get_db_connection():
