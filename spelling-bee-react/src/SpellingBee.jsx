@@ -13,14 +13,17 @@ function SpellingBee() {
   const [rank, setRank] = useState("Beginner");
   const [message, setMessage] = useState("");
 
-  // Attempt to get 'session_id' from the browser's temporary storage.
-  // if the ID doesn't exist, generate a new unique string
+  // Attempt to get 'session_id' from the browser's temporary storage. Else generate a new unique string
   const sessionId = sessionStorage.getItem("session_id") || crypto.randomUUID();
 
   // Save the ID back into storage.
   // This ensures the same ID is found the next time the page is refreshed.
   sessionStorage.setItem("session_id", sessionId);
 
+
+  // -------- API Interactions --------
+
+  // /api/game/today
   // Fetch letters
   useEffect(() => {
     fetch(`${API_URL}/api/game/today`)
@@ -31,7 +34,7 @@ function SpellingBee() {
       });
   }, []);
 
-  // Fetch found words
+  // /api/found_words -- Fetch found words
   useEffect(() => {
     fetch(`${API_URL}/api/found_words?session_id=${sessionId}`)
       .then(res => res.json())
@@ -43,12 +46,7 @@ function SpellingBee() {
       });
   }, []);
 
-  // Clean functional update, garanties most uptodate state info for rappid clicking
-  const handleLetterClick = (letter) => {
-    setWordInput(prev => prev + letter);
-  };
-
-  // Submit a word based on current session
+  // /api/check_word -- Submit a word based on current session
   const submitWord = () => {
     const word = wordInput.trim();
     // dont submit an empty string
@@ -83,7 +81,7 @@ function SpellingBee() {
       });
   };
 
-  // restart the game for current session ID so as to not effect other tab or browser
+  // /api/restart -- restart the game for current session ID so as to not effect other tab or browser
   const restartGame = () => {
     fetch(`${API_URL}/api/restart`, {
       method: "POST",
@@ -103,6 +101,19 @@ function SpellingBee() {
         }
       });
   };
+  // ----------------------------------
+
+  // -------- Helper Functions --------
+  // Clean functional update, garanties most uptodate state info for rappid clicking
+  const handleLetterClick = (letter) => {
+    setWordInput(prev => prev + letter);
+  };
+
+  // back space button
+  const handleBackspace = () => {
+    // shave off last index of currently typed word
+    setWordInput(prev => prev.slice(0, -1));
+  };
 
   // Make a new array with all letters except the center one
   const orderedLetters = [
@@ -112,12 +123,7 @@ function SpellingBee() {
   const midIndex = Math.floor(orderedLetters.length / 2);
   // Insert the center letter in the middle
   orderedLetters.splice(midIndex, 0, centerLetter);
-
-  // back space button
-  const handleBackspace = () => {
-    // shave off last index of currently typed word
-    setWordInput(prev => prev.slice(0, -1));
-  };
+  // ----------------------------------
 
   return (
     <div className="containerOuter">
