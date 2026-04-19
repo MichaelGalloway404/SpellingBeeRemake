@@ -5,7 +5,7 @@ import pymysql, random, datetime, json
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv() # Load the .env file into environment variables os.getenv() ect...
 
 app = Flask(__name__)     # Create a Flask app instance
 api = Api(app)            # Wrap it with Flask-RESTful to define API resources

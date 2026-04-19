@@ -49,6 +49,7 @@ To run locally on WINDOWS:
 >>Or you can use the setup.sql that contains these same lines of code.  
   
 ## Step 3:  
+>>Pip install appropriate libraries (pymysql, Flask, flask_restful, flask_cors, and dotenv if you use environment variables)
 >>Make sure you have word.txt in the same folder as loadTablesSQL.py  
 >>Make sure in loadTablesSQL.py you change the username and password to what you set it in your MySQL install  
 >>Run loadTablesSQL.py
