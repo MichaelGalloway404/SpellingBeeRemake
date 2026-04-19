@@ -1,4 +1,4 @@
--- Create database (if you haven't yet)
+-- Create database 
 CREATE DATABASE IF NOT EXISTS spellingbee;
 USE spellingbee;
 
