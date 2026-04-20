@@ -47,10 +47,6 @@ def load_words():
         # Ensure the database connection is closed even if an error occurs
         conn.close()
 
-def is_valid_word(word):
-    # Checks if the provided word exists in the dictionary set.
-    return word in VALID_WORDS
-
 # -------------------- GAME LOGIC --------------------
 def is_pangram(word, letters):
     # Check if each unique letter in word is a subset of the given letters
@@ -261,7 +257,7 @@ class CheckWord(Resource):
             return {"status": "fail", "reason": "invalid letters"}
 
         # not in dictionary
-        if not is_valid_word(word):
+        if word not in VALID_WORDS:
             return {"status": "fail", "reason": "not in dictionary"}
 
         # word is correct
