@@ -362,4 +362,4 @@ api.add_resource(RestartGame, '/api/restart')
 
 if __name__ == '__main__':
     load_words()  # preload dictionary into memory
-    app.run(threaded=True, debug=True, port=5000)
+    app.run(threaded=True, debug=True, port=5000) # Enables multi-threading
