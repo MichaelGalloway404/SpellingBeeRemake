@@ -92,7 +92,11 @@ def get_today_letters():
 
     # Step 1: Find all pangrams in the dictionary
     # A pangram is a word that uses exactly 7 unique letters
-    pangrams = [w for w in VALID_WORDS if len(set(w)) == 7] # VALID_WORDS was populated when API.py was first ran
+    pangrams = []
+    for word in VALID_WORDS: # VALID_WORDS was populated when API.py was first ran
+        unique_letters = set(word)
+        if len(unique_letters) == 7:
+            pangrams.append(word)
     # len(pangrams) = 22536
 
     # Track the best fallback word puzzle
