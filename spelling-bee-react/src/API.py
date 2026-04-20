@@ -362,4 +362,6 @@ api.add_resource(RestartGame, '/api/restart')
 
 if __name__ == '__main__':
     load_words()  # preload dictionary into memory
+    # Run Flasks development server not for production level but a good testing env.
     app.run(threaded=True, debug=True, port=5000) # Enables multi-threading
+    # debug=True can allow possible arbitrary code execution by bad actors
