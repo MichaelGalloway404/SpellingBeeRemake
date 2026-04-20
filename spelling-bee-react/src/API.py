@@ -96,7 +96,7 @@ def get_today_letters():
     best_score = 0
 
     # Step 2: Try multiple random pangrams to find a good puzzle
-    for _ in range(200):
+    for _ in range(400):
         # Pick a random pangram
         pangram = random.choice(pangrams)
 
@@ -136,9 +136,6 @@ def get_today_letters():
         random.shuffle(best_letters)
         today_letters_cache[today] = best_letters
         return best_letters
-
-    # If absolutely nothing worked
-    raise Exception("Failed to generate puzzle")
 
 # -------------------- SCORING --------------------
 def calculate_score(words, letters):

@@ -2,7 +2,8 @@ import pymysql
 from dotenv import load_dotenv
 import os, sys
 
-load_dotenv()
+load_dotenv('spelling-bee-react/.env') 
+
 
 print("Starting script...")
 
