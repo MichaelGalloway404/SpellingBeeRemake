@@ -53,24 +53,21 @@ def is_valid_word(word):
 
 # -------------------- GAME LOGIC --------------------
 def is_pangram(word, letters):
-    # Determines if a word uses every letter in the provided puzzle set.
-    # Returns True if all 'letters' are present at least once in 'word'.
+    # Check if each unique letter in word is a subset of the given letters
     return set(letters).issubset(set(word))
 
 def is_word_possible(word, letters):
-    # Checks if a word is composed ONLY of the letters provided in the set.
-    # Since letters can be reused, we simply check if the word's characters are a subset.
+    # ex: user send word 'rain' is it a sub set of 'xridnav' return true
     return set(word).issubset(set(letters))
 
 def get_valid_combinations(letters):
     center = letters[0] 
     valid_words = []
-    letters_set = set(letters)
 
     for word in VALID_WORDS:
         # Check if the word contains the required center letter
-        # and if all letters in the word are part of the allowed letter set
-        if center in word and set(word).issubset(letters_set):
+        # Check if all letters in the word are part of the allowed letter set
+        if center in word and is_word_possible(word, letters):
             valid_words.append(word)
 
     return valid_words
