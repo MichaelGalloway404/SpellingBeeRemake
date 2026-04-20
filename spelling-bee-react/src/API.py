@@ -41,8 +41,11 @@ def load_words():
         with conn.cursor() as cursor:
             # Query only words that meet the minimum length requirement
             cursor.execute("SELECT word FROM valid_words WHERE LENGTH(word) >= 4")
-            # Use a set comprehension for efficient storage and fast membership testing
-            VALID_WORDS = {row['word'] for row in cursor.fetchall()}
+            # Grab word returned by DB and add it to our set
+            for row in cursor.fetchall():
+                word = row['word']
+                VALID_WORDS.add(word)
+
     finally:
         # Ensure the database connection is closed even if an error occurs
         conn.close()
