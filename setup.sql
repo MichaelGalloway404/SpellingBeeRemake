@@ -8,7 +8,7 @@ CREATE TABLE valid_words (
     word VARCHAR(100) UNIQUE NOT NULL
 );
 
--- Table for user sessions and found words
+-- Table for user sessions and current session's found words
 CREATE TABLE user_stats (
     id INT AUTO_INCREMENT PRIMARY KEY,
     session_id VARCHAR(255) NOT NULL,
