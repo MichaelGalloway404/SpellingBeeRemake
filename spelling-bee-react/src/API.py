@@ -9,7 +9,14 @@ load_dotenv() # Load the .env file into environment variables os.getenv() ect...
 
 app = Flask(__name__)     # Create a Flask app instance
 api = Api(app)            # Wrap it with Flask-RESTful to define API resources
-CORS(app)                 # Enable CORS (Cross-Origin Resource Sharing)
+# CORS(app)               # Enable CORS (this is ok for local but not safe in production)
+# Safe use of CORS (Cross-Origin Resource Sharing)
+CORS(app, resources={
+    r"/*": {
+        "origins": [os.getenv("LOCAL")] 
+    }
+})
+
 
 # -------------------- DATABASE --------------------
 def get_db_connection():
