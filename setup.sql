@@ -13,6 +13,6 @@ CREATE TABLE user_stats (
     id INT AUTO_INCREMENT PRIMARY KEY,
     session_id VARCHAR(255) NOT NULL,
     found_words TEXT, -- will store JSON list of words
-    date_played DATE,
+    date_played DATE, -- allows us to get only found words session info for current day
     UNIQUE (session_id, date_played)
 );
