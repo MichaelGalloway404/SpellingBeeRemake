@@ -118,10 +118,13 @@ function SpellingBee() {
   const orderedLetters = [
     ...letters.filter(l => l !== centerLetter)
   ];
+  
   // Get middle position of the new letters list
   const midIndex = Math.floor(orderedLetters.length / 2);
+
   // Insert the center letter in the middle
   orderedLetters.splice(midIndex, 0, centerLetter);
+
   // ----------------------------------
 
   return (
