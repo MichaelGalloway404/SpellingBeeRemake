@@ -13,7 +13,7 @@ api = Api(app)            # Wrap it with Flask-RESTful to define API resources
 # Safe use of CORS (Cross-Origin Resource Sharing)
 CORS(app, resources={
     r"/*": {
-        "origins": [os.getenv("LOCAL")] 
+        "origins": [os.getenv("LOCAL_FRONT_END")] 
     }
 })
 
