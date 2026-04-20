@@ -29,7 +29,7 @@ def get_db_connection():
     )
 
 # -------------------- WORD CACHE --------------------
-# A global set to store dictionary words in memory for O(1) lookup speed
+# A global set to store dictionary of words lenght 4 or longer
 VALID_WORDS = set()
 
 def load_words():
