@@ -25,7 +25,7 @@ def get_db_connection():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
         database=os.getenv("DB_NAME"),
-        cursorclass=pymysql.cursors.DictCursor
+        cursorclass=pymysql.cursors.DictCursor # returns results as key val pairs rather than PyMySQL's tuple of tuples
     )
 
 # -------------------- WORD CACHE --------------------
