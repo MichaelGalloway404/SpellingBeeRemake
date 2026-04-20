@@ -100,7 +100,7 @@ def get_today_letters():
     best_score = 0
 
     # Step 2: Try multiple random pangrams to find a good puzzle
-    for _ in range(400):
+    for _ in range(500):
         # Pick a random pangram
         pangram = random.choice(pangrams)
 
