@@ -170,6 +170,7 @@ def get_rank(score):
 
 # -------------------- SESSION HANDLING --------------------
 def get_session(session_id):
+    # We only want to get info from today, found words ect...
     today = datetime.date.today()
     conn = get_db_connection()
 
